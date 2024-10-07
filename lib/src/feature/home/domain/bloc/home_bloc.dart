@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
+import 'dart:developer' as dev;
+import 'dart:math';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,8 @@ class HomeBloc extends Bloc<HomeBlocEvent, HomeBlocState> {
   }
 
   AppRouter router = AppRouter.instance();
+
+  final uuid = Random();
 
   FutureOr<void> _fetchTasks(
     FetchTasksEvent event,
@@ -57,7 +60,7 @@ class HomeBloc extends Bloc<HomeBlocEvent, HomeBlocState> {
     final jsonString = jsonEncode(
       TaskEntity(
         userId: 0,
-        id: 0,
+        id: uuid.nextInt(100000),
         title: event.title,
         completed: event.completed,
       ).toJson(),
@@ -91,7 +94,7 @@ class HomeBloc extends Bloc<HomeBlocEvent, HomeBlocState> {
 
     final List<TaskEntity> allTasks = lastLocalTask + state.tasksLoaded!;
 
-    log('Task saved. Title: ${event.title}, Completed: ${event.completed}');
+    dev.log('Task saved. Title: ${event.title}, Completed: ${event.completed}');
     emit(HomeBlocLoadedState(tasksLoaded: allTasks));
   }
 }
