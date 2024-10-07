@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 class HomeApiImpl extends HomeApi {
   final http.Client? _client;
 
-  HomeApiImpl({required http.Client? client}) : _client = client;
+  HomeApiImpl({http.Client? client}) : _client = client ?? http.Client();
 
   @override
   Future<List<TaskEntity>> getTasks() async {
