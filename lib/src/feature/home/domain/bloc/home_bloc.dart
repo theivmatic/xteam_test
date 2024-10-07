@@ -38,10 +38,12 @@ class HomeBloc extends Bloc<HomeBlocEvent, HomeBlocState> {
     Emitter<HomeBlocState> emit,
   ) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setStringList(event.title, <String>[
+    final tasks = prefs.getStringList('tasks');
+
+    prefs.setStringList('tasks', <String>[
       event.title,
       event.completed.toString(),
     ]);
-    log('Task stored. Title: ${event.title}, Completed: ${event.completed}');
+    log('Task saved. Title: ${event.title}, Completed: ${event.completed}');
   }
 }

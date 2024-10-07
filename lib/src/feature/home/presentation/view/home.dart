@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:xteam_test/src/core/services/dialogs_displayer.dart';
 import 'package:xteam_test/src/feature/home/domain/bloc/home_bloc.dart';
 import 'package:xteam_test/src/feature/home/presentation/widgets/task.dart';
@@ -17,6 +18,12 @@ class _HomeViewState extends State<HomeView> {
   late final HomeBloc homeBloc;
 
   final TextEditingController controller = TextEditingController();
+
+  // Future<List<String>> getLocalTasks() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   final tasks = prefs.getStringList('tasks');
+  //   return ;
+  // }
 
   @override
   void initState() {
