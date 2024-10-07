@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 class TaskWidget extends StatefulWidget {
   final String title;
   final bool completed;
+  final Function(bool?)? onChanged;
 
-  const TaskWidget({
-    super.key,
-    required this.title,
-    required this.completed,
-  });
+  const TaskWidget(
+      {super.key,
+      required this.title,
+      required this.completed,
+      required this.onChanged});
 
   @override
   State<TaskWidget> createState() => _TaskWidgetState();
@@ -43,10 +44,7 @@ class _TaskWidgetState extends State<TaskWidget> {
               const Spacer(),
               Checkbox(
                 value: widget.completed == true ? true : false,
-                onChanged: (value) {
-                  value = !value!;
-                  setState(() {});
-                },
+                onChanged: widget.onChanged,
               )
             ],
           ),

@@ -19,6 +19,8 @@ class HomeBloc extends Bloc<HomeBlocEvent, HomeBlocState> {
     on<HomeBlocEvent>((event, emit) => switch (event) {
           FetchTasksEvent() => _fetchTasks(event, emit),
           AddTaskEvent() => _addTask(event, emit),
+          CheckTaskEvent() => _checkTask(event, emit),
+          DeleteTaskEvent() => _deleteTask(event, emit),
         });
   }
 
@@ -96,5 +98,29 @@ class HomeBloc extends Bloc<HomeBlocEvent, HomeBlocState> {
 
     dev.log('Task saved. Title: ${event.title}, Completed: ${event.completed}');
     emit(HomeBlocLoadedState(tasksLoaded: allTasks));
+  }
+
+  FutureOr<void> _checkTask(
+    CheckTaskEvent event,
+    Emitter<HomeBlocState> emit,
+  ) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final tasks = prefs.getStringList('tasks');
+
+      final task = tasks?.where((id) => id == event.taskId.toString());
+    } catch (e) {}
+  }
+
+  FutureOr<void> _deleteTask(
+    DeleteTaskEvent event,
+    Emitter<HomeBlocState> emit,
+  ) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final tasks = prefs.getStringList('tasks');
+
+      tasks?.removeWhere((id) => id == event.taskId);
+    } on Exception catch (e) {}
   }
 }

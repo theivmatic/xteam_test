@@ -69,6 +69,7 @@ class _HomeViewState extends State<HomeView> {
                 itemBuilder: (context, index) => TaskWidget(
                   title: state.tasksLoaded?[index].title ?? '',
                   completed: state.tasksLoaded?[index].completed ?? false,
+                  onChanged: (value) {},
                 ),
               ),
             HomeBlocErrorState(errorMessage: 'Что-то пошло не так') => Center(
