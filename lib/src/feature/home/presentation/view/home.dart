@@ -72,14 +72,14 @@ class _HomeViewState extends State<HomeView> {
         child: BlocBuilder<HomeBloc, HomeBlocState>(
           builder: (context, state) => switch (state) {
             HomeBlocLoadedState() => ListView.builder(
-                itemCount: state.tasksLoaded.length,
+                itemCount: state.tasksLoaded?.length,
                 itemBuilder: (context, index) => TaskWidget(
-                  title: state.tasksLoaded[index].title ?? '',
-                  completed: state.tasksLoaded[index].completed ?? false,
+                  title: state.tasksLoaded?[index].title ?? '',
+                  completed: state.tasksLoaded?[index].completed ?? false,
                 ),
               ),
             HomeBlocErrorState(errorMessage: 'Что-то пошло не так') => Center(
-                child: Text(state.errorMessage),
+                child: Text(state.errorMessage ?? 'Что-то пошло не так'),
               ),
             (_) => const Center(
                 child: CircularProgressIndicator(),

@@ -26,6 +26,9 @@ dependencies:
   # utils
   json_annotation: ^4.9.0
 
+  # comparing dart objects
+  equatable: ^2.0.5
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
