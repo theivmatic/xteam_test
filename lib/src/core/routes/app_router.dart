@@ -9,9 +9,12 @@ class AppRouter extends RootStackRouter {
   List<AutoRoute> get routes => [
         AutoRoute(
           page: AuthView.page,
+          // initial: true,
+        ),
+        AutoRoute(
+          page: HomeView.page,
           initial: true,
         ),
-        AutoRoute(page: HomeView.page),
       ];
   AppRouter._();
 
