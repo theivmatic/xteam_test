@@ -38,7 +38,24 @@ class _HomeViewState extends State<HomeView> {
           DialogsDisplayer.showAddToDoDialog(
             context,
             controller,
-            () {},
+            () {
+              if (controller.text.isEmpty) {
+                ScaffoldMessenger.of(context).clearSnackBars();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Введите название задачи'),
+                  ),
+                );
+              } else {
+                homeBloc.add(
+                  AddTaskEvent(
+                    title: controller.text,
+                    completed: false,
+                  ),
+                );
+                Navigator.of(context).pop();
+              }
+            },
           );
         },
         child: const Icon(Icons.add),
