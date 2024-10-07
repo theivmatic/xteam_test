@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:xteam_test/src/core/services/dialogs_displayer.dart';
 import 'package:xteam_test/src/feature/home/domain/bloc/home_bloc.dart';
 import 'package:xteam_test/src/feature/home/presentation/widgets/task.dart';
 
@@ -14,6 +15,8 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   late final HomeBloc homeBloc;
+
+  final TextEditingController controller = TextEditingController();
 
   @override
   void initState() {
@@ -29,6 +32,16 @@ class _HomeViewState extends State<HomeView> {
       appBar: AppBar(
         centerTitle: true,
         title: const Text('Задачи'),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          DialogsDisplayer.showAddToDoDialog(
+            context,
+            controller,
+            () {},
+          );
+        },
+        child: const Icon(Icons.add),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30),
