@@ -36,9 +36,11 @@ class HomeBloc extends Bloc<HomeBlocEvent, HomeBlocState> {
           ?.map((jsonString) => TaskEntity.fromJson(jsonDecode(jsonString)))
           .toList();
 
+      final List<TaskEntity> allTasks =
+          newTasks != null ? tasksLoaded + localTasksLoaded! : tasksLoaded;
+
       emit(HomeBlocLoadedState(
-        tasksLoaded:
-            newTasks != null ? tasksLoaded + localTasksLoaded! : tasksLoaded,
+        tasksLoaded: allTasks.reversed.toList(),
       ));
     } catch (e) {
       emit(HomeBlocErrorState(errorMessage: e.toString()));
@@ -86,7 +88,10 @@ class HomeBloc extends Bloc<HomeBlocEvent, HomeBlocState> {
       localTasksLoaded!.last,
     ];
 
+    final List<TaskEntity> allTasks =
+        state.tasksLoaded!.reversed.toList() + lastLocalTask;
+
     log('Task saved. Title: ${event.title}, Completed: ${event.completed}');
-    emit(HomeBlocLoadedState(tasksLoaded: state.tasksLoaded! + lastLocalTask));
+    emit(HomeBlocLoadedState(tasksLoaded: allTasks.reversed.toList()));
   }
 }
