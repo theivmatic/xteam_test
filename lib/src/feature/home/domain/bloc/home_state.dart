@@ -3,7 +3,7 @@ part of 'home_bloc.dart';
 @immutable
 sealed class HomeBlocState extends Equatable {
   List<TaskEntity>? get tasksLoaded;
-  List<LocalTaskEntity>? get localTasksLoaded;
+  List<TaskEntity>? get localTasksLoaded;
 
   @override
   List<Object?> get props => [
@@ -13,7 +13,7 @@ sealed class HomeBlocState extends Equatable {
 
   HomeBlocState copyWith({
     List<TaskEntity>? tasksLoaded,
-    List<LocalTaskEntity>? localTasksLoaded,
+    List<TaskEntity>? localTasksLoaded,
   });
 }
 
@@ -21,7 +21,7 @@ final class HomeBlocInitialState extends HomeBlocState {
   @override
   final List<TaskEntity>? tasksLoaded;
   @override
-  final List<LocalTaskEntity>? localTasksLoaded;
+  final List<TaskEntity>? localTasksLoaded;
 
   HomeBlocInitialState({
     this.tasksLoaded,
@@ -45,7 +45,7 @@ final class HomeBlocLoadingState extends HomeBlocState {
   @override
   final List<TaskEntity>? tasksLoaded;
   @override
-  final List<LocalTaskEntity>? localTasksLoaded;
+  final List<TaskEntity>? localTasksLoaded;
 
   HomeBlocLoadingState({
     this.tasksLoaded,
@@ -69,7 +69,7 @@ final class HomeBlocLoadedState extends HomeBlocState {
   @override
   final List<TaskEntity>? tasksLoaded;
   @override
-  final List<LocalTaskEntity>? localTasksLoaded;
+  final List<TaskEntity>? localTasksLoaded;
 
   HomeBlocLoadedState({
     this.tasksLoaded,
@@ -93,7 +93,7 @@ final class HomeBlocErrorState extends HomeBlocState {
   @override
   final List<TaskEntity>? tasksLoaded;
   @override
-  final List<LocalTaskEntity>? localTasksLoaded;
+  final List<TaskEntity>? localTasksLoaded;
 
   final String? errorMessage;
 

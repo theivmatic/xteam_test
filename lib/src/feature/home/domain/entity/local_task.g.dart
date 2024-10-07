@@ -6,13 +6,12 @@ part of 'local_task.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-LocalTaskEntity _$LocalTaskEntityFromJson(Map<String, dynamic> json) =>
-    LocalTaskEntity(
+TaskEntity _$LocalTaskEntityFromJson(Map<String, dynamic> json) => TaskEntity(
       title: json['title'] as String?,
       completed: json['completed'] as bool?,
     );
 
-Map<String, dynamic> _$LocalTaskEntityToJson(LocalTaskEntity instance) =>
+Map<String, dynamic> _$LocalTaskEntityToJson(TaskEntity instance) =>
     <String, dynamic>{
       'title': instance.title,
       'completed': instance.completed,

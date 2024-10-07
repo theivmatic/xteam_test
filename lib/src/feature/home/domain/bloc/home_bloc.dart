@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:xteam_test/src/core/routes/app_router.dart';
 import 'package:xteam_test/src/feature/home/data/interfaces/home_api_impl.dart';
-import 'package:xteam_test/src/feature/home/domain/entity/local_task.dart';
 import 'package:xteam_test/src/feature/home/domain/entity/task.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -30,7 +29,17 @@ class HomeBloc extends Bloc<HomeBlocEvent, HomeBlocState> {
   ) async {
     try {
       final List<TaskEntity> tasksLoaded = await HomeApiImpl().getTasks();
-      emit(HomeBlocLoadedState(tasksLoaded: tasksLoaded));
+      final prefs = await SharedPreferences.getInstance();
+      final newTasks = prefs.getStringList('tasks');
+
+      final localTasksLoaded = newTasks
+          ?.map((jsonString) => TaskEntity.fromJson(jsonDecode(jsonString)))
+          .toList();
+
+      emit(HomeBlocLoadedState(
+        tasksLoaded:
+            newTasks != null ? tasksLoaded + localTasksLoaded! : tasksLoaded,
+      ));
     } catch (e) {
       emit(HomeBlocErrorState(errorMessage: e.toString()));
     }
@@ -42,35 +51,42 @@ class HomeBloc extends Bloc<HomeBlocEvent, HomeBlocState> {
   ) async {
     final prefs = await SharedPreferences.getInstance();
     final tasks = prefs.getStringList('tasks');
+    final jsonString = jsonEncode(
+      TaskEntity(
+        userId: 0,
+        id: 0,
+        title: event.title,
+        completed: event.completed,
+      ).toJson(),
+    );
+
     if (tasks != null) {
       prefs.setStringList(
         'tasks',
         tasks +
             <String>[
-              jsonEncode(
-                LocalTaskEntity(title: event.title, completed: event.completed)
-                    .toJson(),
-              ),
+              jsonString,
             ],
       );
     } else {
       prefs.setStringList(
         'tasks',
         <String>[
-          jsonEncode(
-            LocalTaskEntity(title: event.title, completed: event.completed)
-                .toJson(),
-          ),
+          jsonString,
         ],
       );
     }
     final newTasks = prefs.getStringList('tasks');
 
-    final tasksLoaded = newTasks
-        ?.map((jsonString) => LocalTaskEntity.fromJson(jsonDecode(jsonString)))
+    final localTasksLoaded = newTasks
+        ?.map((jsonString) => TaskEntity.fromJson(jsonDecode(jsonString)))
         .toList();
 
+    final List<TaskEntity> lastLocalTask = [
+      localTasksLoaded!.last,
+    ];
+
     log('Task saved. Title: ${event.title}, Completed: ${event.completed}');
-    // emit(HomeBlocLoadedState());
+    emit(HomeBlocLoadedState(tasksLoaded: state.tasksLoaded! + lastLocalTask));
   }
 }
