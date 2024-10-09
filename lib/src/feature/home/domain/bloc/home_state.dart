@@ -28,7 +28,7 @@ final class HomeBlocInitialState extends HomeBlocState {
     localTasksLoaded,
   }) =>
       HomeBlocInitialState(
-        tasksLoaded: tasksLoaded != '' ? tasksLoaded ?? this.tasksLoaded : null,
+        tasksLoaded: tasksLoaded != [] ? tasksLoaded ?? this.tasksLoaded : null,
       );
 }
 
@@ -46,7 +46,7 @@ final class HomeBlocLoadingState extends HomeBlocState {
     localTasksLoaded,
   }) =>
       HomeBlocLoadingState(
-        tasksLoaded: tasksLoaded != '' ? tasksLoaded ?? this.tasksLoaded : null,
+        tasksLoaded: tasksLoaded != [] ? tasksLoaded ?? this.tasksLoaded : null,
       );
 }
 
@@ -64,7 +64,7 @@ final class HomeBlocLoadedState extends HomeBlocState {
     localTasksLoaded,
   }) =>
       HomeBlocLoadedState(
-        tasksLoaded: tasksLoaded != '' ? tasksLoaded ?? this.tasksLoaded : null,
+        tasksLoaded: tasksLoaded != [] ? tasksLoaded ?? this.tasksLoaded : null,
       );
 }
 
@@ -86,7 +86,7 @@ final class HomeBlocErrorState extends HomeBlocState {
     errorMessage,
   }) =>
       HomeBlocErrorState(
-        tasksLoaded: tasksLoaded != '' ? tasksLoaded ?? this.tasksLoaded : null,
+        tasksLoaded: tasksLoaded != [] ? tasksLoaded ?? this.tasksLoaded : null,
         errorMessage:
             errorMessage != '' ? errorMessage ?? this.errorMessage : null,
       );

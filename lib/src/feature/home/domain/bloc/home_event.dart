@@ -17,8 +17,14 @@ class AddTaskEvent extends HomeBlocEvent {
 
 class CheckTaskEvent extends HomeBlocEvent {
   final int? taskId;
+  final int? index;
+  final bool? completed;
 
-  CheckTaskEvent({required this.taskId});
+  CheckTaskEvent({
+    required this.taskId,
+    required this.index,
+    required this.completed,
+  });
 }
 
 class DeleteTaskEvent extends HomeBlocEvent {

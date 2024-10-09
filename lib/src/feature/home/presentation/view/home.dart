@@ -21,7 +21,6 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     super.initState();
-
     homeBloc = context.read<HomeBloc>();
     homeBloc.add(FetchTasksEvent());
   }
@@ -63,13 +62,30 @@ class _HomeViewState extends State<HomeView> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30),
         child: BlocBuilder<HomeBloc, HomeBlocState>(
+          buildWhen: (previous, current) =>
+              previous.tasksLoaded != current.tasksLoaded,
           builder: (context, state) => switch (state) {
             HomeBlocLoadedState() => ListView.builder(
                 itemCount: state.tasksLoaded?.length,
                 itemBuilder: (context, index) => TaskWidget(
                   title: state.tasksLoaded?[index].title ?? '',
                   completed: state.tasksLoaded?[index].completed ?? false,
-                  onChanged: (value) {},
+                  onChanged: (value) {
+                    // homeBloc.add(
+                    //   CheckTaskEvent(
+                    //     taskId: state.tasksLoaded?[index].id,
+                    //     index: index,
+                    //     completed: state.tasksLoaded?[index].completed == true
+                    //         ? false
+                    //         : true,
+                    //   ),
+                    // );
+                  },
+                  onLongPress: () => homeBloc.add(
+                    DeleteTaskEvent(
+                      taskId: state.tasksLoaded?[index].id,
+                    ),
+                  ),
                 ),
               ),
             HomeBlocErrorState(errorMessage: 'Что-то пошло не так') => Center(

@@ -45,9 +45,7 @@ class HomeBloc extends Bloc<HomeBlocEvent, HomeBlocState> {
           ? localTasksLoaded!.reversed.toList() + tasksLoaded
           : tasksLoaded;
 
-      emit(HomeBlocLoadedState(
-        tasksLoaded: allTasks,
-      ));
+      emit(HomeBlocLoadedState(tasksLoaded: allTasks));
     } catch (e) {
       emit(HomeBlocErrorState(errorMessage: e.toString()));
     }
@@ -108,8 +106,34 @@ class HomeBloc extends Bloc<HomeBlocEvent, HomeBlocState> {
       final prefs = await SharedPreferences.getInstance();
       final tasks = prefs.getStringList('tasks');
 
-      final task = tasks?.where((id) => id == event.taskId.toString());
-    } catch (e) {}
+      final taskList = tasks
+          ?.map((jsonString) => TaskEntity.fromJson(jsonDecode(jsonString)))
+          .toList();
+
+      final task = taskList?.singleWhere((item) => item.userId == event.taskId);
+
+      final jsonString = jsonEncode(
+        TaskEntity(
+          userId: task?.userId,
+          id: task?.id,
+          title: task?.title,
+          completed: event.completed,
+        ).toJson(),
+      );
+
+      taskList?.remove(task);
+      state.tasksLoaded?.remove(task);
+
+      taskList?.insert(event.index ?? 0, task!);
+
+      prefs.setStringList('tasks', tasks! + <String>[jsonString]);
+
+      final List<TaskEntity> allTasks = taskList! + state.tasksLoaded!;
+
+      emit(HomeBlocLoadedState(tasksLoaded: allTasks));
+    } on Exception catch (e) {
+      emit(HomeBlocErrorState());
+    }
   }
 
   FutureOr<void> _deleteTask(
@@ -120,7 +144,23 @@ class HomeBloc extends Bloc<HomeBlocEvent, HomeBlocState> {
       final prefs = await SharedPreferences.getInstance();
       final tasks = prefs.getStringList('tasks');
 
-      tasks?.removeWhere((id) => id == event.taskId);
-    } on Exception catch (e) {}
+      final localTasksLoaded = tasks
+          ?.map((jsonString) => TaskEntity.fromJson(jsonDecode(jsonString)))
+          .toList();
+
+      localTasksLoaded?.removeWhere((item) => item.id == event.taskId);
+      state.tasksLoaded?.removeWhere((item) => item.id == event.taskId);
+
+      final newTasksList =
+          localTasksLoaded?.map((item) => jsonEncode(item)).toList();
+
+      prefs.setStringList('tasks', newTasksList!);
+
+      final List<TaskEntity> allTasks = localTasksLoaded! + state.tasksLoaded!;
+
+      emit(HomeBlocLoadedState(tasksLoaded: allTasks));
+    } on Exception catch (e) {
+      emit(HomeBlocErrorState());
+    }
   }
 }
