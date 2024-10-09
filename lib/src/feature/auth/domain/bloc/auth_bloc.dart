@@ -38,6 +38,14 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
           AuthBlocErrorState(errorMessage: 'Логин или пароль введен неверно'),
         );
       }
+    } else {
+      await Future.delayed(
+        const Duration(seconds: 1),
+        () => router.pushAndPopUntil(
+          const AuthErrorView(),
+          predicate: (_) => false,
+        ),
+      );
     }
   }
 }
