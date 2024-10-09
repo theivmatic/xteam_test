@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:xteam_test/src/core/localization/localization.dart';
 import 'package:xteam_test/src/core/routes/app_router.dart';
 import 'package:xteam_test/src/core/routes/app_router.gr.dart';
 
@@ -27,7 +28,7 @@ class AuthErrorView extends StatelessWidget {
         ),
       ),
       body: const Center(
-        child: Text('Логин или пароль введен неверно'),
+        child: Text(L.wrongLoginOrPassword),
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:xteam_test/src/core/localization/localization.dart';
 import 'package:xteam_test/src/core/services/dialogs_displayer.dart';
 import 'package:xteam_test/src/feature/home/domain/bloc/home_bloc.dart';
 import 'package:xteam_test/src/feature/home/presentation/widgets/task.dart';
@@ -30,7 +31,7 @@ class _HomeViewState extends State<HomeView> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('Задачи'),
+        title: const Text(L.tasks),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -42,7 +43,7 @@ class _HomeViewState extends State<HomeView> {
                 ScaffoldMessenger.of(context).clearSnackBars();
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
-                    content: Text('Введите название задачи'),
+                    content: Text(L.enterTaskTitle),
                   ),
                 );
               } else {
@@ -70,17 +71,7 @@ class _HomeViewState extends State<HomeView> {
                 itemBuilder: (context, index) => TaskWidget(
                   title: state.tasksLoaded?[index].title ?? '',
                   completed: state.tasksLoaded?[index].completed ?? false,
-                  onChanged: (value) {
-                    // homeBloc.add(
-                    //   CheckTaskEvent(
-                    //     taskId: state.tasksLoaded?[index].id,
-                    //     index: index,
-                    //     completed: state.tasksLoaded?[index].completed == true
-                    //         ? false
-                    //         : true,
-                    //   ),
-                    // );
-                  },
+                  onChanged: (value) {},
                   onLongPress: () => homeBloc.add(
                     DeleteTaskEvent(
                       taskId: state.tasksLoaded?[index].id,
@@ -88,8 +79,8 @@ class _HomeViewState extends State<HomeView> {
                   ),
                 ),
               ),
-            HomeBlocErrorState(errorMessage: 'Что-то пошло не так') => Center(
-                child: Text(state.errorMessage ?? 'Что-то пошло не так'),
+            HomeBlocErrorState(errorMessage: L.somethingWentWrong) => Center(
+                child: Text(state.errorMessage ?? L.somethingWentWrong),
               ),
             (_) => const Center(
                 child: CircularProgressIndicator(),

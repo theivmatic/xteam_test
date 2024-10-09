@@ -13,7 +13,6 @@ class AppRouter extends RootStackRouter {
         ),
         AutoRoute(
           page: HomeView.page,
-          // initial: true,
         ),
         AutoRoute(
           page: AuthErrorView.page,

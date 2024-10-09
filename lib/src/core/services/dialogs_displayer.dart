@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:xteam_test/src/core/localization/localization.dart';
 import 'package:xteam_test/src/feature/auth/presentation/widgets/primary_button.dart';
 
 class DialogsDisplayer {
@@ -17,14 +18,14 @@ class DialogsDisplayer {
               mainAxisSize: MainAxisSize.min,
               children: [
                 const SizedBox(height: 20),
-                const Text('Введите название задачи:'),
+                const Text(L.enterTaskTitle),
                 const SizedBox(height: 20),
                 TextField(
                   controller: controller,
                 ),
                 const SizedBox(height: 20),
                 PrimaryButtonWidget(
-                  text: 'Добавить',
+                  text: L.add,
                   onPressed: onPressed,
                 ),
               ],

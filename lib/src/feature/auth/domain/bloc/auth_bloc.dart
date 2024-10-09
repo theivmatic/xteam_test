@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:xteam_test/src/core/localization/localization.dart';
 import 'package:xteam_test/src/core/routes/app_router.dart';
 import 'package:xteam_test/src/core/routes/app_router.gr.dart';
 
@@ -35,7 +36,7 @@ class AuthBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
         );
       } on Exception {
         emit(
-          AuthBlocErrorState(errorMessage: 'Логин или пароль введен неверно'),
+          AuthBlocErrorState(errorMessage: L.wrongLoginOrPassword),
         );
       }
     } else {
